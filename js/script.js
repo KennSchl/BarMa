@@ -19,24 +19,24 @@ axios.get('https://api.myjson.com/bins/1di5xc')
     }
   }
   var myChart = new Chart(ctx, {
-    type: 'scatter',
+    type: 'line',
     data: {
-      label: 'Scatter Dataset',
+      label: 'Line Dataset',
       datasets: [{
           data: notDopingData,
-          label: 'No Doping',
+          label: '2018',
           backgroundColor: 'rgba(255, 0, 0, 1)',
         },
         {
           data: dopingData,
-          label: 'Doping',
+          label: '2019',
           backgroundColor: 'rgba(0, 0, 255, 1)'
         }]
     },
     options: {
       title: {
         display: true,
-        text: "35 Fastest times up Alpe d'Huez"
+        text: "Implementeringen af BarMa Academy"
       },
       legend: {
         display: true,
@@ -48,7 +48,7 @@ axios.get('https://api.myjson.com/bins/1di5xc')
           display: true,
           scaleLabel: {
             display: true,
-            labelString: 'Rank',
+            labelString: 'Gennemsnitlig transaktion',
             fontSize: 16
           },
           ticks: {
@@ -62,7 +62,7 @@ axios.get('https://api.myjson.com/bins/1di5xc')
           display: true,
           scaleLabel: {
             display: true,
-            labelString: 'Time (Minutes)',
+            labelString: 'Tid',
             fontSize: 16
           },
           gridLines: {
