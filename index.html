@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Introduction to chart.js</title>
+    <title>Graph work</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,9 +11,18 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
+              <div class="tabbar">
+                <a href="#personale" onclick="showGraph('personale')"><input type="checkbox" id="myCheck" onclick="myFunction()">Personale</a>
+                <section id="personale" class="graph">
               <canvas id="outputCanvas" width="500" height="300"></canvas>
+              </section>
+              <a href="#virksomhed" onclick="showGraph('virksomhed')"><input type="checkbox" id="myCheck" onclick="myFunction()">Virksomhed</a>
+              <section id="virksomhed" class="graph">
+              <canvas id="outputCanvas2" width="500" height="300"></canvas>
+              </section>
             </div>
             <div id="description"></div>
+        </div>
         </div>
     </div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
