@@ -1,218 +1,75 @@
-var ctx = document.getElementById("outputCanvas").getContext('2d');
+"use strict";
 
-axios.get('https://api.myjson.com/bins/1di5xc')
-  .then(function (response) {
-  console.log(response);
-  var colouring = [];
-  var data = [];
-  var dopingData = [];
-  var notDopingData = [];
+let sheetId = "1FHVRKe8HKRFN7eI7FJ64jMjGL2TxNuWqVbIL4L5RlWo";
+let sheetNumber = 1;
+let sheetUrl = "https://spreadsheets.google.com/feeds/list/" + sheetId + "/" + sheetNumber + "/public/full?alt=json";
+console.log(sheetUrl);
 
-  /*var description = document.getElementById("description");
-  description.innerText = response.data.description;*/
 
-  for (var i = 0; i < response.data.length; i++) {
-    if (response.data[i]["Doping"] === "") {
-      notDopingData.push({x: parseFloat(response.data[i]['Time'].replace(':','.')), y: response.data[i]['Place'], id: i});
-    } else {
-      dopingData.push({x: parseFloat(response.data[i]['Time'].replace(':','.')), y: response.data[i]['Place'], id: i});
-    }
+fetch(sheetUrl)
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(json) {
+    appendChart(json.feed.entry);
+  });
+
+function appendChart(data) {
+  console.log(data);
+
+  // prepare data
+  let transaktionerOld = [];
+  let transaktionerNew= [];
+  let months = [];
+
+  for (let object of data) {
+    transaktionerOld.push(object.gsx$transaktionerOld.$t);
+    transaktionerNew.push(object.gsx$transaktionerNew.$t);
+    months.push(object.gsx$months.$t);
   }
-  var myChart = new Chart(ctx, {
+
+  console.log(transaktionerOld);
+  console.log(transaktionerNew);
+  console.log(months);
+
+  // generate chart
+  let chart = document.getElementById('chart');
+  let myDoughnutChart = new Chart(chart, {
     type: 'line',
     data: {
-      label: 'Line Dataset',
       datasets: [{
-          data: notDopingData,
-          label: '2018',
-          backgroundColor: 'rgba(255, 0, 0, 1)',
-        },
-        {
-          data: dopingData,
-          label: '2019',
-          backgroundColor: 'rgba(0, 0, 255, 1)'
-        }]
+        data: transaktionerOld,
+        label: 'Transaktioner 2018',
+        fill: false,
+        borderColor: "#9cdbd4",
+        borderDash: [5, 5],
+        backgroundColor: "#9cdbd4",
+        pointBackgroundColor: "#9cdbd4",
+        pointBorderColor: "#9cdbd4",
+        pointHoverBackgroundColor: "#9cdbd4",
+        pointHoverBorderColor: "#9cdbd4",
+      },
+      {label: 'Transaktioner 2019',
+          data: transaktionerNew,
+          fill: false,
+          borderColor: "#55bae7",
+          backgroundColor: "#55bae7",
+          pointBackgroundColor: "#e755ba",
+          pointBorderColor: "#e755ba",
+          pointHoverBackgroundColor: "#e755ba",
+          pointHoverBorderColor: "#e755ba",
+          type: 'line' }],
+      labels: months
     },
     options: {
-      title: {
-        display: true,
-        text: "Implementeringen af BarMa Academi"
-      },
-      legend: {
-        display: true,
-      },
-
-      showLines: false,
       scales: {
         yAxes: [{
-          display: true,
-          scaleLabel: {
-            display: true,
-            labelString: 'Gennemsnitlig transaktion',
-            fontSize: 16
-          },
           ticks: {
-            beginAtZero:true,
-            fontSize: 14
-          }
-        }],
-        xAxes: [{
-          type: 'linear',
-          position: 'bottom',
-          display: true,
-          scaleLabel: {
-            display: true,
-            labelString: 'Tid',
-            fontSize: 16
-          },
-          gridLines: {
-            display: true
-          },
-          ticks: {
-            beginAtZero:false,
-            fontSize: 14,
+            min: 0,
+            max: 400000
           }
         }]
       }
     }
   });
-
-
-})
-  .catch(function (error) {
-  console.log(error);
-});
-axios.get('https://api.myjson.com/bins/1di5xc')
-  .then(function (response) {
-  console.log(response);
-  var colouring = [];
-  var data = [];
-  var dopingData = [];
-  var notDopingData = [];
-
-var ctx = document.getElementById("outputCanvas2").getContext('2d');
-  /*var description = document.getElementById("description");
-  description.innerText = response.data.description;*/
-
-  for (var i = 0; i < response.data.length; i++) {
-    if (response.data[i]["Doping"] === "") {
-      notDopingData.push({x: parseFloat(response.data[i]['Time'].replace(':','.')), y: response.data[i]['Place'], id: i});
-    } else {
-      dopingData.push({x: parseFloat(response.data[i]['Time'].replace(':','.')), y: response.data[i]['Place'], id: i});
-    }
-  }
-  var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      label: 'Line Dataset',
-      datasets: [{
-          data: notDopingData,
-          label: '2018',
-          backgroundColor: 'rgba(255, 0, 0, 1)',
-        },
-        {
-          data: dopingData,
-          label: '2019',
-          backgroundColor: 'rgba(0, 0, 255, 1)'
-        }]
-    },
-    options: {
-      title: {
-        display: true,
-        text: "Implementeringen af BarMa Academi"
-      },
-      legend: {
-        display: true,
-      },
-
-      showLines: false,
-      scales: {
-        yAxes: [{
-          display: true,
-          scaleLabel: {
-            display: true,
-            labelString: 'Gennemsnitlig transaktion',
-            fontSize: 16
-          },
-          ticks: {
-            beginAtZero:true,
-            fontSize: 14
-          }
-        }],
-        xAxes: [{
-          type: 'linear',
-          position: 'bottom',
-          display: true,
-          scaleLabel: {
-            display: true,
-            labelString: 'Tid',
-            fontSize: 16
-          },
-          gridLines: {
-            display: true
-          },
-          ticks: {
-            beginAtZero:false,
-            fontSize: 14,
-          }
-        }]
-      }
-    }
-  });
-
-})
-  .catch(function (error) {
-  console.log(error);
-});
-
-// hide all pages
-function hideAllGraphs() {
-  let graphs = document.querySelectorAll(".graphs");
-  for (let graph of graphs) {
-    graph.style.display = "none";
-  }
 }
-
-// show page or tab
-function showGraph(graphId) {
-  hideAllGraphs();
-  document.querySelector(`#${graphId}`).style.display = "block";
-  setActiveTab(graphId);
-}
-
-// set default page
-function setDefaultGraph() {
-  let graph = "personale";
-  if (location.hash) {
-    graph = location.hash.slice(1);
-  }
-  showGraph(graph);
-}
-// sets active tabbar/ menu item
-function setActiveTab(graphId) {
-  let graphs = document.querySelectorAll(".tabbar a");
-  for (let graph of graphs) {
-    if (`#${graphId}` === graph.getAttribute("href")) {
-      graph.classList.add("active");
-    } else {
-      graph.classList.remove("active");
-    }
-
-  }
-}
-
-setDefaultGraph();
-
-function myFunction() {
-  // Get the checkbox
-  var checkBox = document.getElementById("myCheck");
-  // Get the output text
-  var text = document.getElementById("text");
-
-  // If the checkbox is checked, display the output text
-  if (checkBox.checked == true){
-    text.style.display = "block";
-  } else {
-    text.style.display = "none";
-  }
-};
