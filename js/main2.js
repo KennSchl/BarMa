@@ -18,17 +18,20 @@ function appendChart(data) {
   // prepare data
   let gnssalgold = [];
   let gnssalgnew = [];
+    let goal = [];
   let months = [];
 
   for (let object of data) {
       console.log(object);
     gnssalgold.push(object.gsx$gnssalgold.$t);
     gnssalgnew.push(object.gsx$gnssalgnew.$t)
+       goal.push(object.gsx$goal.$t)
     months.push(object.gsx$months.$t);
   }
 
   console.log(gnssalgold);
   console.log(gnssalgnew);
+    console.log(goal);
   console.log(months);
 
   // generate chart
@@ -57,6 +60,17 @@ function appendChart(data) {
           pointBorderColor: "#e755ba",
           pointHoverBackgroundColor: "#e755ba",
           pointHoverBorderColor: "#e755ba",
+          type: 'line'
+      },
+                {label: ' målsætningen for 2020',
+          data: goal,
+          fill: false,
+          borderColor: "orange",
+          backgroundColor: "orange",
+          pointBackgroundColor: "orange",
+          pointBorderColor: "orange",
+          pointHoverBackgroundColor: "orange",
+          pointHoverBorderColor: "orange",
           type: 'line'
       },],
       labels: months
